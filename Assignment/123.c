@@ -1,17 +1,17 @@
 // Write a program to convert a decimal number to a binary number.
 
-
 #include <stdio.h>
 
 int main()
 {
     int n, binary[32], i = 0;
 
+    printf("Enter a decimal number: ");
     scanf("%d", &n);
 
     if (n == 0)
     {
-        printf("0");
+        printf("Binary = 0");
         return 0;
     }
 
@@ -21,6 +21,8 @@ int main()
         n = n / 2;
         i++;
     }
+
+    printf("Binary = ");
 
     for (i = i - 1; i >= 0; i--)
     {
