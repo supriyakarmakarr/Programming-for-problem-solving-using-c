@@ -1,6 +1,5 @@
-/*Write a program to find the sum ofsquares of digits of a number. If the sum is a perfect
-square, print Square-Happy Number else not.*/
-
+// Write a program to find the sum of squares of digits of a number.
+// If the sum is a perfect square, print Square-Happy Number else not.
 
 #include <stdio.h>
 #include <math.h>
