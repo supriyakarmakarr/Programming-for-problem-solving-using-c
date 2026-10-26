@@ -1,17 +1,23 @@
+
 #include <stdio.h>
-static unsigned long long factorial(unsigned int n) {
-    unsigned long long result = 1;
-    for (unsigned int i = 2; i <= n; i++)
-        result *= i;
-    return result;
+
+unsigned long long factorial(int n) {
+    unsigned long long f = 1;
+    for (int i = 1; i <= n; i++)
+        f *= i;
+    return f;
 }
+
 int main(void) {
-    unsigned int n;
-    printf("Enter a non-negative integer (0-20): ");
-    if (scanf("%u", &n) != 1 || n > 20) {
-        puts("Enter a value from 0 to 20.");
+    int n;
+    printf("Enter a non-negative integer: ");
+    scanf("%d", &n);
+
+    if (n < 0) {
+        printf("Invalid input!\n");
         return 1;
     }
+
     printf("Factorial: %llu\n", factorial(n));
     return 0;
 }

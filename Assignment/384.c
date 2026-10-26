@@ -1,26 +1,23 @@
+
 #include <stdio.h>
-static double power(double base, unsigned int exponent) {
-    if (exponent == 0)
-        return 1.0;
-    double half = power(base, exponent / 2);
-    double result = half * half;
-    return exponent % 2 ? result * base : result;
+
+double power(double b, int n) {
+    if (n == 0) return 1;
+    if (n < 0) return 1.0 / power(b, -(n + 1)) / b;
+    return b * power(b, n - 1);
 }
+
 int main(void) {
-    double base;
-    int exponent;
-    printf("Enter base and integer exponent: ");
-    if (scanf("%lf %d", &base, &exponent) != 2) {
-        puts("Invalid input.");
+    double b;
+    int n;
+
+    printf("Enter base and exponent: \n");
+    if (scanf("%lf %d", &b, &n) != 2) return 1;
+    if (b == 0 && n < 0) {
+        printf("Invalid input!\n");
         return 1;
     }
-    if (base == 0.0 && exponent < 0) {
-        puts("Zero cannot be raised to a negative power.");
-        return 1;
-    }
-    double result = power(base, (unsigned int)(exponent < 0 ? -(long long)exponent : exponent));
-    if (exponent < 0)
-        result = 1.0 / result;
-    printf("Result: %.10g\n", result);
+
+    printf("Result: %g\n", power(b, n));
     return 0;
 }
