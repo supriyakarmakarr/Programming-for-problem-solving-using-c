@@ -1,31 +1,24 @@
+/*
+ * 337. Write a program to remove all occurrences of a substring from a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH], part[MAX_LENGTH], result[MAX_LENGTH];
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    printf("Substring to remove: ");
-    if (fgets(part, sizeof part, stdin) == NULL)
-        return 1;
-    part[strcspn(part, "\n")] = '\0';
-    if (part[0] == '\0') {
-        puts("The substring cannot be empty.");
-        return 0;
-    }
-    size_t used = 0, length = strlen(part);
-    for (char *p = text; *p;) {
-        char *match = strstr(p, part);
-        size_t chunk = match ? (size_t)(match - p) : strlen(p);
-        memcpy(result + used, p, chunk);
-        used += chunk;
-        p += chunk;
-        if (match)
-            p += length;
-    }
-    result[used] = '\0';
-    printf("Result: %s\n", result);
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    char t[1024];
+    printf("Enter substring to remove: ");
+    if (!fgets(t, sizeof t, stdin)) return 1;
+    t[strcspn(t, "\n")] = '\0';
+    size_t lt = strlen(t);
+    if (lt)
+        for (char *p = s; (p = strstr(p, t)) != NULL; )
+            memmove(p, p + lt, strlen(p + lt) + 1);
+    printf("Result: %s\n", s);
     return 0;
 }

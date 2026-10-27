@@ -1,20 +1,21 @@
+/*
+ * 386. Write a function to count digits in a number.
+ */
+
 #include <stdio.h>
-static unsigned int count_digits(long long n) {
-    unsigned long long v = n < 0 ? (unsigned long long)(-(n + 1)) + 1 : (unsigned long long)n;
-    unsigned int count = 0;
-    do {
-        count++;
-        v /= 10;
-    } while (v);
+
+static int countDigits(long long n)
+{
+    int count = 1;
+    for (; n / 10; n /= 10) count++;
     return count;
 }
-int main(void) {
+
+int main(void)
+{
     long long n;
-    printf("Enter an integer: ");
-    if (scanf("%lld", &n) != 1) {
-        puts("Invalid input.");
-        return 1;
-    }
-    printf("Digit count: %u\n", count_digits(n));
+    printf("Enter a number: ");
+    if (scanf("%lld", &n) != 1) return 1;
+    printf("Number of digits = %d\n", countDigits(n));
     return 0;
 }

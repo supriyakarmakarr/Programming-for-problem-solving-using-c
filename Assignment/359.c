@@ -1,19 +1,24 @@
-#include <ctype.h>
-#include <errno.h>
+/*
+ * 359. Write a program to check whether a string represents a valid number.
+ */
+
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-int main(void) {
-    char s[128], *end;
-    printf("Enter a number: ");
-    if (!fgets(s, sizeof s, stdin))
-        return 1;
-    s[strcspn(s, "\n")] = 0;
-    errno = 0;
-    (void)strtod(s, &end);
-    while (isspace((unsigned char)*end))
-        end++;
-    int ok = s[0] && end != s && !*end && errno != ERANGE;
-    puts(ok ? "Valid numeric string." : "Invalid numeric string.");
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    const char *p = s;
+    if (*p == '+' || *p == '-') p++;
+    int digits = 0, dot = 0;
+    for (; isdigit((unsigned char)*p) || (*p == '.' && !dot); p++) {
+        if (*p == '.') dot = 1;
+        else digits++;
+    }
+    puts(digits && !*p ? "Valid number" : "Not a valid number");
     return 0;
 }

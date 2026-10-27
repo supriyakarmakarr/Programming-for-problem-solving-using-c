@@ -1,25 +1,26 @@
-#include <ctype.h>
+/*
+ * 367. Write a program to validate a password based on given rules.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char p[MAX_LENGTH];
-    int upper = 0, lower = 0, digit = 0, special = 0;
-    printf("Enter a password: ");
-    if (!fgets(p, sizeof p, stdin))
-        return 1;
-    p[strcspn(p, "\n")] = 0;
-    size_t n = strlen(p);
-    for (size_t i = 0; i < n; i++) {
-        unsigned char c = (unsigned char)p[i];
-        upper |= isupper(c) != 0;
-        lower |= islower(c) != 0;
-        digit |= isdigit(c) != 0;
-        special |= !isalnum(c);
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int upper = 0, lower = 0, digit = 0, special = 0, space = 0;
+    for (const char *p = s; *p; p++) {
+        upper |= isupper((unsigned char)*p) != 0;
+        lower |= islower((unsigned char)*p) != 0;
+        digit |= isdigit((unsigned char)*p) != 0;
+        special |= ispunct((unsigned char)*p) != 0;
+        space |= isspace((unsigned char)*p) != 0;
     }
-    int ok = n >= 8 && upper && lower && digit && special;
-    puts(ok ? "Password meets the rules."
-            : "Use at least 8 characters with uppercase, lowercase, a digit, and a special "
-              "character.");
+    int ok = strlen(s) >= 8 && upper && lower && digit && special && !space;
+    puts(ok ? "Valid password" : "Invalid password. Rules: 8+ characters, an uppercase, a lowercase, a digit, a special character, no spaces");
     return 0;
 }

@@ -1,29 +1,25 @@
+/*
+ * 333. Write a program to find the longest common prefix of multiple strings.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-#define MAX_STRINGS 32
-int main(void) {
-    char strings[MAX_STRINGS][MAX_LENGTH];
-    size_t count;
-    printf("How many strings (1-%d)? ", MAX_STRINGS);
-    if (scanf("%zu", &count) != 1 || count == 0 || count > MAX_STRINGS) {
-        puts("Invalid count.");
-        return 1;
+
+int main(void)
+{
+    int n;
+    char w[100][100];
+    printf("Enter number of strings: ");
+    if (scanf("%d", &n) != 1 || n < 1 || n > 100) return 1;
+    printf("Enter %d strings: ", n);
+    for (int i = 0; i < n; i++)
+        if (scanf("%99s", w[i]) != 1) return 1;
+    size_t len = strlen(w[0]);
+    for (int i = 1; i < n; i++) {
+        size_t k = 0;
+        while (k < len && w[i][k] == w[0][k]) k++;
+        len = k;
     }
-    getchar();
-    for (size_t i = 0; i < count; ++i) {
-        printf("String %zu: ", i + 1);
-        if (fgets(strings[i], sizeof strings[i], stdin) == NULL)
-            return 1;
-        strings[i][strcspn(strings[i], "\n")] = '\0';
-    }
-    size_t length = strlen(strings[0]);
-    for (size_t i = 1; i < count; ++i) {
-        size_t j = 0;
-        while (j < length && strings[i][j] == strings[0][j])
-            ++j;
-        length = j;
-    }
-    printf("Longest common prefix: %.*s\n", (int)length, strings[0]);
+    printf("Longest common prefix: \"%.*s\"\n", (int)len, w[0]);
     return 0;
 }

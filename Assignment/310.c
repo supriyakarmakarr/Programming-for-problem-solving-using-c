@@ -1,18 +1,21 @@
-#include <ctype.h>
+/*
+ * 310. Write a program to remove punctuation marks from a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t write = 0;
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    for (size_t read = 0; text[read] != '\0'; ++read)
-        if (!ispunct((unsigned char)text[read]))
-            text[write++] = text[read];
-    text[write] = '\0';
-    printf("Without punctuation: %s\n", text);
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    size_t j = 0;
+    for (size_t i = 0; s[i]; i++)
+        if (!ispunct((unsigned char)s[i])) s[j++] = s[i];
+    s[j] = '\0';
+    printf("Result: %s\n", s);
     return 0;
 }

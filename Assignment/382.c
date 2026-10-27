@@ -1,21 +1,22 @@
+/*
+ * 382. Write a function to check whether a number is prime.
+ */
+
 #include <stdio.h>
-static int is_prime(int n) {
-    if (n < 2)
-        return 0;
-    if (n % 2 == 0)
-        return n == 2;
-    for (int d = 3; d <= n / d; d += 2)
-        if (n % d == 0)
-            return 0;
+
+static int isPrime(int n)
+{
+    if (n < 2) return 0;
+    for (int i = 2; i <= n / i; i++)
+        if (n % i == 0) return 0;
     return 1;
 }
-int main(void) {
+
+int main(void)
+{
     int n;
-    printf("Enter an integer: ");
-    if (scanf("%d", &n) != 1) {
-        puts("Invalid input.");
-        return 1;
-    }
-    puts(is_prime(n) ? "Prime number." : "Not a prime number.");
+    printf("Enter a number: ");
+    if (scanf("%d", &n) != 1) return 1;
+    puts(isPrime(n) ? "Prime" : "Not prime");
     return 0;
 }

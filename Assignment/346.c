@@ -1,33 +1,30 @@
+/*
+ * 346. Write a program to generate all permutations of a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 9
-static void permute(char *text, size_t start, size_t length) {
-    if (start == length) {
-        puts(text);
+
+static void permute(char *s, size_t l, size_t r)
+{
+    if (l == r) {
+        puts(s);
         return;
     }
-    for (size_t i = start; i < length; ++i) {
-        char temp = text[start];
-        text[start] = text[i];
-        text[i] = temp;
-        permute(text, start + 1, length);
-        temp = text[start];
-        text[start] = text[i];
-        text[i] = temp;
+    for (size_t i = l; i <= r; i++) {
+        char tmp = s[l]; s[l] = s[i]; s[i] = tmp;
+        permute(s, l + 1, r);
+        tmp = s[l]; s[l] = s[i]; s[i] = tmp;       // backtrack
     }
 }
-int main(void) {
-    char text[MAX_LENGTH];
-    printf("Enter a string (up to %d characters): ", MAX_LENGTH - 1);
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    size_t n = strlen(text);
-    if (n > 8) {
-        puts("Input is too long; permutation count grows factorially.");
-        return 1;
-    }
-    puts("Permutations:");
-    permute(text, 0, n);
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    size_t n = strlen(s);
+    if (n) permute(s, 0, n - 1);
     return 0;
 }

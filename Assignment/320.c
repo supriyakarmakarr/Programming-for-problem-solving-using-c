@@ -1,17 +1,20 @@
-#include <ctype.h>
+/*
+ * 320. Write a program to extract digits from a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH], digits[MAX_LENGTH];
-    size_t write = 0;
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0' && text[i] != '\n'; ++i)
-        if (isdigit((unsigned char)text[i]))
-            digits[write++] = text[i];
-    digits[write] = '\0';
-    printf("Extracted digits: %s\n", digits);
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    printf("Digits: ");
+    for (const char *p = s; *p; p++)
+        if (isdigit((unsigned char)*p)) putchar(*p);
+    putchar('\n');
     return 0;
 }

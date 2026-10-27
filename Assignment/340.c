@@ -1,19 +1,21 @@
+/*
+ * 340. Write a program to count the number of sentences in a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t sentences = 0;
-    int in_terminator = 0;
-    printf("Enter text: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0'; ++i) {
-        int terminator = text[i] == '.' || text[i] == '!' || text[i] == '?';
-        if (terminator && !in_terminator)
-            ++sentences;
-        in_terminator = terminator;
-    }
-    printf("Number of sentences: %zu\n", sentences);
+
+#define END(c) ((c) && strchr(".!?", (c)))
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int count = 0;
+    for (size_t i = 0; s[i]; i++)
+        count += END(s[i]) && !END(s[i + 1]);       // a run like "..." or "?!" counts once
+    printf("Number of sentences: %d\n", count);
     return 0;
 }

@@ -1,38 +1,34 @@
+/*
+ * 335. Write a program to check whether a string follows a given pattern.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-#define MAX_WORDS 64
-int main(void) {
-    char pattern[MAX_LENGTH], sentence[MAX_LENGTH];
-    char words[MAX_WORDS][MAX_LENGTH];
-    size_t count = 0;
 
-    printf("Enter a pattern (for example, abba): ");
-    if (fgets(pattern, sizeof pattern, stdin) == NULL)
-        return 1;
-    pattern[strcspn(pattern, "\n")] = '\0';
-
-    printf("Enter the word sequence: ");
-    if (fgets(sentence, sizeof sentence, stdin) == NULL)
-        return 1;
-    for (char *word = strtok(sentence, " \t\r\n"); word != NULL && count < MAX_WORDS;
-         word = strtok(NULL, " \t\r\n")) {
-        strncpy(words[count], word, MAX_LENGTH - 1);
-        words[count][MAX_LENGTH - 1] = '\0';
-        ++count;
-    }
-
-    int valid = strlen(pattern) == count;
-    for (size_t i = 0; valid && i < count; ++i) {
-        for (size_t j = 0; j < i; ++j) {
-            if ((pattern[i] == pattern[j]) != (strcmp(words[i], words[j]) == 0)) {
-                valid = 0;
-                break;
-            }
+int main(void)
+{
+    char s[1024];
+    printf("Enter pattern (e.g. abba): ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    char t[1024];
+    printf("Enter words separated by spaces: ");
+    if (!fgets(t, sizeof t, stdin)) return 1;
+    t[strcspn(t, "\n")] = '\0';
+    const char *map[256] = {0};
+    size_t i = 0;
+    int ok = 1;
+    for (char *w = strtok(t, " "); w && ok; w = strtok(NULL, " "), i++) {
+        unsigned char c = s[i];
+        if (!c) { ok = 0; break; }
+        if (map[c]) ok = strcmp(map[c], w) == 0;
+        else {
+            for (int k = 0; k < 256; k++)
+                if (map[k] && strcmp(map[k], w) == 0) ok = 0;    // word already used by another letter
+            map[c] = w;
         }
     }
-
-    puts(valid ? "The word sequence follows the pattern."
-               : "The word sequence does not follow the pattern.");
+    ok = ok && s[i] == '\0';
+    puts(ok ? "String follows the pattern" : "String does not follow the pattern");
     return 0;
 }

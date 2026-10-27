@@ -1,29 +1,26 @@
-#include <ctype.h>
+/*
+ * 368. Write a program to count the different types of characters in given string.
+ */
+
 #include <stdio.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char s[MAX_LENGTH];
-    size_t u = 0, l = 0, d = 0, ws = 0, p = 0, o = 0;
-    printf("Enter a string: ");
-    if (!fgets(s, sizeof s, stdin))
-        return 1;
-    for (size_t i = 0; s[i] && s[i] != '\n'; i++) {
-        unsigned char c = (unsigned char)s[i];
-        if (isupper(c))
-            u++;
-        else if (islower(c))
-            l++;
-        else if (isdigit(c))
-            d++;
-        else if (isspace(c))
-            ws++;
-        else if (ispunct(c))
-            p++;
-        else
-            o++;
+#include <string.h>
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int upper = 0, lower = 0, digit = 0, space = 0, special = 0;
+    for (const char *p = s; *p; p++) {
+        unsigned char c = *p;
+        if (isupper(c)) upper++;
+        else if (islower(c)) lower++;
+        else if (isdigit(c)) digit++;
+        else if (isspace(c)) space++;
+        else special++;
     }
-    printf("Uppercase: %zu\nLowercase: %zu\nDigits: %zu\nWhitespace: %zu\nPunctuation: %zu\nOther: "
-           "%zu\n",
-           u, l, d, ws, p, o);
+    printf("Uppercase: %d\nLowercase: %d\nDigits: %d\nSpaces: %d\nSpecial: %d\n", upper, lower, digit, space, special);
     return 0;
 }

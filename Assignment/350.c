@@ -1,20 +1,18 @@
+/*
+ * 350. Write a program to find the length of a string using pointer.
+ */
+
 #include <stdio.h>
-#define MAX_LENGTH 256
-static size_t string_length(const char *text) {
-    const char *end = text;
-    while (*end != '\0')
-        ++end;
-    return (size_t)(end - text);
-}
-int main(void) {
-    char text[MAX_LENGTH];
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    char *newline = text;
-    while (*newline != '\0' && *newline != '\n')
-        ++newline;
-    *newline = '\0';
-    printf("String length: %zu\n", string_length(text));
+#include <string.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    const char *p = s;
+    while (*p) p++;
+    printf("Length: %td\n", p - s);
     return 0;
 }

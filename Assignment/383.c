@@ -1,35 +1,26 @@
-#include <limits.h>
+/*
+ * 383. Write a function to generate the Fibonacci series up to N terms.
+ */
+
 #include <stdio.h>
 
-int main(void) {
-    unsigned int terms;
-    unsigned long long current = 0, next_term = 1;
-
-    printf("Number of Fibonacci terms (0-94): ");
-    if (scanf("%u", &terms) != 1 || terms > 94) {
-        puts("Enter a term count from 0 to 94.");
-        return 1;
+static void fibonacci(int n)
+{
+    unsigned long long a = 0, b = 1;
+    for (int i = 0; i < n; i++) {
+        printf("%llu ", a);
+        unsigned long long next = a + b;
+        a = b;
+        b = next;
     }
+    putchar('\n');
+}
 
-    for (unsigned int index = 0; index < terms; ++index) {
-        printf("%llu%s", current, index + 1 < terms ? " " : "\n");
-        if (index + 1 == terms)
-            break;
-
-        if (index + 2 == terms) {
-            current = next_term;
-            continue;
-        }
-        if (ULLONG_MAX - current < next_term) {
-            puts("Series overflow.");
-            return 1;
-        }
-        unsigned long long sum = current + next_term;
-        current = next_term;
-        next_term = sum;
-    }
-
-    if (terms == 0)
-        putchar('\n');
+int main(void)
+{
+    int n;
+    printf("Enter number of terms (1-93): ");
+    if (scanf("%d", &n) != 1 || n < 1 || n > 93) return 1;
+    fibonacci(n);
     return 0;
 }

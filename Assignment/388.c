@@ -1,12 +1,19 @@
+/*
+ * 388. Write a function to calculate sum of first N natural numbers.
+ */
+
 #include <stdio.h>
-static long long sum_first_n(unsigned int n) { return (long long)n * (n + 1) / 2; }
-int main(void) {
-    unsigned int n;
-    printf("Enter N (0-607400099): ");
-    if (scanf("%u", &n) != 1 || n > 607400099U) {
-        puts("N is out of supported range.");
-        return 1;
-    }
-    printf("Sum: %lld\n", sum_first_n(n));
+
+static unsigned long long sumNatural(unsigned long long n)
+{
+    return n * (n + 1) / 2;
+}
+
+int main(void)
+{
+    long long n;
+    printf("Enter N (0 to 4000000000): ");
+    if (scanf("%lld", &n) != 1 || n < 0 || n > 4000000000LL) return 1;
+    printf("Sum = %llu\n", sumNatural((unsigned long long)n));
     return 0;
 }

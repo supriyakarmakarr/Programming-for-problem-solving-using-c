@@ -1,20 +1,23 @@
+/*
+ * 324. Write a program to sort characters of a string alphabetically.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    size_t n = strlen(text);
-    for (size_t i = 0; i < n; ++i)
-        for (size_t j = i + 1; j < n; ++j)
-            if ((unsigned char)text[i] > (unsigned char)text[j]) {
-                char t = text[i];
-                text[i] = text[j];
-                text[j] = t;
-            }
-    printf("Sorted characters: %s\n", text);
+#include <stdlib.h>
+
+static int cmp(const void *a, const void *b)
+{
+    unsigned char x = *(const unsigned char *)a, y = *(const unsigned char *)b;
+    return (x > y) - (x < y);
+}
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    qsort(s, strlen(s), 1, cmp);
+    printf("Sorted: %s\n", s);
     return 0;
 }

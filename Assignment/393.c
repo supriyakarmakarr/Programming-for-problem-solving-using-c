@@ -1,29 +1,28 @@
+/*
+ * 393. Write a function to find largest & smallest element in an array.
+ */
+
 #include <stdio.h>
-#define MAX_SIZE 100
-static void find_min_max(const int a[], size_t n, int *minimum, int *maximum) {
-    *minimum = *maximum = a[0];
-    for (size_t i = 1; i < n; i++) {
-        if (a[i] < *minimum)
-            *minimum = a[i];
-        if (a[i] > *maximum)
-            *maximum = a[i];
+
+static void minMax(const int *a, int n, int *mn, int *mx)
+{
+    *mn = *mx = a[0];
+    for (int i = 1; i < n; i++) {
+        if (a[i] < *mn) *mn = a[i];
+        if (a[i] > *mx) *mx = a[i];
     }
 }
-int main(void) {
-    int a[MAX_SIZE], min, max;
-    size_t n;
-    printf("Array size (1-%d): ", MAX_SIZE);
-    if (scanf("%zu", &n) != 1 || !n || n > MAX_SIZE) {
-        puts("Invalid size.");
-        return 1;
-    }
-    printf("Enter %zu integers: ", n);
-    for (size_t i = 0; i < n; i++)
-        if (scanf("%d", &a[i]) != 1) {
-            puts("Invalid input.");
-            return 1;
-        }
-    find_min_max(a, n, &min, &max);
-    printf("Smallest: %d\nLargest: %d\n", min, max);
+
+int main(void)
+{
+    int a[1000], n;
+    printf("Enter size: ");
+    if (scanf("%d", &n) != 1 || n < 1 || n > 1000) return 1;
+    printf("Enter elements: ");
+    for (int i = 0; i < n; i++)
+        if (scanf("%d", &a[i]) != 1) return 1;
+    int mn, mx;
+    minMax(a, n, &mn, &mx);
+    printf("Smallest = %d\nLargest = %d\n", mn, mx);
     return 0;
 }

@@ -1,20 +1,25 @@
-#include <ctype.h>
+/*
+ * 347. Write a program to check whether a string is an isogram.
+ */
+
 #include <stdio.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    int seen[26] = {0}, isogram = 1;
-    printf("Enter a word or phrase: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0'; ++i) {
-        int ch = tolower((unsigned char)text[i]);
-        if (ch >= 'a' && ch <= 'z') {
-            if (seen[ch - 'a'])
-                isogram = 0;
-            seen[ch - 'a'] = 1;
+#include <string.h>
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    unsigned seen = 0;
+    int ok = 1;
+    for (const char *p = s; *p && ok; p++)
+        if (isalpha((unsigned char)*p)) {
+            unsigned bit = 1u << (tolower((unsigned char)*p) - 'a');
+            ok = !(seen & bit);
+            seen |= bit;
         }
-    }
-    puts(isogram ? "The text is an isogram." : "The text is not an isogram.");
+    puts(ok ? "String is an isogram" : "String is not an isogram");
     return 0;
 }

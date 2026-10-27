@@ -1,23 +1,23 @@
+/*
+ * 317. Write a program to find the maximum occurring character in a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t counts[256] = {0};
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    for (size_t i = 0; text[i] != '\0'; ++i)
-        ++counts[(unsigned char)text[i]];
-    if (text[0] == '\0') {
-        puts("The string is empty.");
-        return 0;
-    }
-    unsigned char best = (unsigned char)text[0];
-    for (size_t i = 0; i < 256; ++i)
-        if (counts[i] > counts[best])
-            best = (unsigned char)i;
-    printf("Most frequent character: '%c' (%zu occurrence(s))\n", best, counts[best]);
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int freq[256] = {0}, best = 0;
+    for (const char *p = s; *p; p++)
+        if (!isspace((unsigned char)*p)) freq[(unsigned char)*p]++;
+    for (int i = 1; i < 256; i++)
+        if (freq[i] > freq[best]) best = i;
+    if (freq[best]) printf("Maximum occurring character: '%c' (%d times)\n", best, freq[best]);
+    else puts("No characters found");
     return 0;
 }

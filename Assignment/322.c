@@ -1,30 +1,19 @@
-#include <ctype.h>
+/*
+ * 322. Write a program to validate an email format using basic rules.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char email[MAX_LENGTH];
-    size_t at_count = 0;
-    char *at = NULL;
-    printf("Enter an email address: ");
-    if (fgets(email, sizeof email, stdin) == NULL)
-        return 1;
-    email[strcspn(email, "\n")] = '\0';
-    for (size_t i = 0; email[i] != '\0'; ++i) {
-        if (isspace((unsigned char)email[i])) {
-            puts("Invalid email format.");
-            return 0;
-        }
-        if (email[i] == '@') {
-            ++at_count;
-            at = &email[i];
-        }
-    }
-    int valid = at_count == 1 && at != email && at[1] != '\0';
-    if (valid) {
-        char *dot = strrchr(at + 1, '.');
-        valid = dot != NULL && dot > at + 1 && dot[1] != '\0';
-    }
-    puts(valid ? "Email format looks valid." : "Invalid email format.");
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    const char *at = strchr(s, '@');
+    const char *dot = at ? strrchr(at, '.') : NULL;
+    int ok = at && at > s && !strchr(at + 1, '@') && !strchr(s, ' ') && dot && dot > at + 1 && dot[1];
+    puts(ok ? "Valid email format" : "Invalid email format");
     return 0;
 }

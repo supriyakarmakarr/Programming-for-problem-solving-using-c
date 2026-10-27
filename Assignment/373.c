@@ -1,36 +1,24 @@
+/*
+ * 373. Write a program to find the longest substring without repeating characters.
+ */
 
 #include <stdio.h>
 #include <string.h>
 
-int main(void) {
-    char s[256];
-    int last[256], start = 0, best = 0, pos = 0;
-
-    for (int i = 0; i < 256; i++)
-        last[i] = -1;
-
-    printf("Enter a string: ");
-    if (fgets(s, sizeof(s), stdin) == NULL)
-        return 1;
-
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
     s[strcspn(s, "\n")] = '\0';
-
-    for (int i = 0; s[i] != '\0'; i++) {
-        unsigned char c = (unsigned char)s[i];
-
-        if (last[c] >= start)
-            start = last[c] + 1;
-
+    int last[256], n = (int)strlen(s), start = 0, bestStart = 0, best = 0;
+    memset(last, -1, sizeof last);
+    for (int i = 0; i < n; i++) {
+        unsigned char c = s[i];
+        if (last[c] >= start) start = last[c] + 1;      // jump past the previous copy
         last[c] = i;
-
-        if (i - start + 1 > best) {
-            best = i - start + 1;
-            pos = start;
-        }
+        if (i - start + 1 > best) best = i - start + 1, bestStart = start;
     }
-
-    printf("Longest substring: %.*s\n", best, s + pos);
-    printf("Length: %d\n", best);
-
+    printf("Longest substring without repeating characters: \"%.*s\" (length %d)\n", best, s + bestStart, best);
     return 0;
 }

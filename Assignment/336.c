@@ -1,42 +1,37 @@
+/*
+ * 336. Write a program to replace a substring with another substring.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH], old[MAX_LENGTH], replacement[MAX_LENGTH], result[MAX_LENGTH];
-    printf("Enter the original string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    printf("Substring to replace: ");
-    if (fgets(old, sizeof old, stdin) == NULL)
-        return 1;
-    old[strcspn(old, "\n")] = '\0';
-    printf("Replacement: ");
-    if (fgets(replacement, sizeof replacement, stdin) == NULL)
-        return 1;
-    replacement[strcspn(replacement, "\n")] = '\0';
-    if (old[0] == '\0') {
-        puts("The target substring cannot be empty.");
-        return 0;
-    }
-    size_t used = 0, old_len = strlen(old), new_len = strlen(replacement);
-    for (char *p = text; *p;) {
-        char *match = strstr(p, old);
-        size_t chunk = match ? (size_t)(match - p) : strlen(p);
-        if (used + chunk + (match ? new_len : 0) >= sizeof result) {
-            puts("Result is too long.");
-            return 1;
-        }
-        memcpy(result + used, p, chunk);
-        used += chunk;
-        p += chunk;
-        if (match) {
-            memcpy(result + used, replacement, new_len);
-            used += new_len;
-            p += old_len;
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    char t[1024];
+    printf("Enter substring to replace: ");
+    if (!fgets(t, sizeof t, stdin)) return 1;
+    t[strcspn(t, "\n")] = '\0';
+    char u[1024];
+    printf("Enter replacement: ");
+    if (!fgets(u, sizeof u, stdin)) return 1;
+    u[strcspn(u, "\n")] = '\0';
+    char out[4096];
+    size_t n = 0, lt = strlen(t), lu = strlen(u);
+    for (const char *p = s; *p; ) {
+        if (lt && strncmp(p, t, lt) == 0) {
+            if (n + lu >= sizeof out) return 1;
+            memcpy(out + n, u, lu);
+            n += lu, p += lt;
+        } else {
+            if (n + 1 >= sizeof out) return 1;
+            out[n++] = *p++;
         }
     }
-    result[used] = '\0';
-    printf("Updated string: %s\n", result);
+    out[n] = '\0';
+    printf("Result: %s\n", out);
     return 0;
 }

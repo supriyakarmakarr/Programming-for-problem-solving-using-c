@@ -1,23 +1,33 @@
-#include <ctype.h>
+/*
+ * 338. Write a program to split a string into characters, words, and lines.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t characters = 0, words = 0;
-    int in_word = 0;
-    printf("Enter one line of text: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0' && text[i] != '\n'; ++i) {
-        ++characters;
-        if (isspace((unsigned char)text[i]))
-            in_word = 0;
-        else if (!in_word) {
-            ++words;
-            in_word = 1;
-        }
+
+int main(void)
+{
+    char s[4096];
+    printf("Enter text (end with Ctrl+D): ");
+    size_t len = fread(s, 1, sizeof s - 1, stdin);
+    s[len] = '\0';
+    char tmp[4096];
+
+    printf("Characters:");
+    for (size_t i = 0; i < len; i++) {
+        putchar(' ');
+        if (s[i] == '\n') fputs("\\n", stdout);
+        else putchar(s[i]);
     }
-    printf("Characters: %zu\nWords: %zu\nLines: %d\n", characters, words, characters > 0 ? 1 : 0);
+
+    strcpy(tmp, s);
+    printf("\nWords:\n");
+    for (char *w = strtok(tmp, " \t\n"); w; w = strtok(NULL, " \t\n"))
+        printf("  %s\n", w);
+
+    strcpy(tmp, s);
+    printf("Lines:\n");
+    for (char *l = strtok(tmp, "\n"); l; l = strtok(NULL, "\n"))
+        printf("  %s\n", l);
     return 0;
 }

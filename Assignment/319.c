@@ -1,17 +1,22 @@
-#include <ctype.h>
+/*
+ * 319. Write a program to count uppercase and lowercase letters separately.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t upper = 0, lower = 0;
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0'; ++i) {
-        upper += isupper((unsigned char)text[i]) != 0;
-        lower += islower((unsigned char)text[i]) != 0;
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int upper = 0, lower = 0;
+    for (const char *p = s; *p; p++) {
+        upper += isupper((unsigned char)*p) != 0;
+        lower += islower((unsigned char)*p) != 0;
     }
-    printf("Uppercase letters: %zu\nLowercase letters: %zu\n", upper, lower);
+    printf("Uppercase: %d\nLowercase: %d\n", upper, lower);
     return 0;
 }

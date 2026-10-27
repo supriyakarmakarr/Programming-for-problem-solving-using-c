@@ -1,22 +1,22 @@
+/*
+ * 357. Write a program to wrap text after a fixed number of characters.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char s[MAX_LENGTH];
-    size_t width;
-    printf("Enter text: ");
-    if (!fgets(s, sizeof s, stdin))
-        return 1;
-    s[strcspn(s, "\n")] = 0;
-    printf("Wrap width: ");
-    if (scanf("%zu", &width) != 1 || !width) {
-        puts("Width must be positive.");
-        return 1;
-    }
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    size_t k;
+    printf("Enter line width: ");
+    if (scanf("%zu", &k) != 1 || k == 0) return 1;
     for (size_t i = 0; s[i]; i++) {
         putchar(s[i]);
-        if ((i + 1) % width == 0 && s[i + 1])
-            putchar('\n');
+        if ((i + 1) % k == 0 && s[i + 1]) putchar('\n');
     }
     putchar('\n');
     return 0;

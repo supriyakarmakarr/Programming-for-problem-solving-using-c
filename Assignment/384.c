@@ -1,23 +1,23 @@
+/*
+ * 384. Write a function to calculate power of a number using recursion.
+ */
 
 #include <stdio.h>
 
-double power(double b, int n) {
+static double power(double x, long n)
+{
     if (n == 0) return 1;
-    if (n < 0) return 1.0 / power(b, -(n + 1)) / b;
-    return b * power(b, n - 1);
+    if (n < 0) return 1 / power(x, -n);
+    double half = power(x, n / 2);                    // fast exponentiation
+    return n % 2 ? half * half * x : half * half;
 }
 
-int main(void) {
-    double b;
-    int n;
-
-    printf("Enter base and exponent: \n");
-    if (scanf("%lf %d", &b, &n) != 2) return 1;
-    if (b == 0 && n < 0) {
-        printf("Invalid input!\n");
-        return 1;
-    }
-
-    printf("Result: %g\n", power(b, n));
+int main(void)
+{
+    double x;
+    long n;
+    printf("Enter base and exponent: ");
+    if (scanf("%lf %ld", &x, &n) != 2) return 1;
+    printf("%g ^ %ld = %g\n", x, n, power(x, n));
     return 0;
 }

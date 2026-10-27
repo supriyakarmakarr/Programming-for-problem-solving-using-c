@@ -1,29 +1,30 @@
+/*
+ * 395. Write a function to sort an array in descending order using selection sort.
+ */
+
 #include <stdio.h>
-#define MAX_SIZE 100
-static void selection_sort_descending(int a[], size_t n) {
-    for (size_t i = 0; i < n; i++) {
-        size_t largest = i;
-        for (size_t j = i + 1; j < n; j++)
-            if (a[j] > a[largest])
-                largest = j;
-        int t = a[i];
-        a[i] = a[largest];
-        a[largest] = t;
+
+static void selectionSortDesc(int *a, int n)
+{
+    for (int i = 0; i < n - 1; i++) {
+        int max = i;
+        for (int j = i + 1; j < n; j++)
+            if (a[j] > a[max]) max = j;
+        int tmp = a[i]; a[i] = a[max]; a[max] = tmp;
     }
 }
-int main(void) {
-    int a[MAX_SIZE];
-    size_t n;
-    printf("Array size (1-%d): ", MAX_SIZE);
-    if (scanf("%zu", &n) != 1 || !n || n > MAX_SIZE)
-        return 1;
-    printf("Enter %zu integers: ", n);
-    for (size_t i = 0; i < n; i++)
-        if (scanf("%d", &a[i]) != 1)
-            return 1;
-    selection_sort_descending(a, n);
-    printf("Descending order:");
-    for (size_t i = 0; i < n; i++)
+
+int main(void)
+{
+    int a[1000], n;
+    printf("Enter size: ");
+    if (scanf("%d", &n) != 1 || n < 1 || n > 1000) return 1;
+    printf("Enter elements: ");
+    for (int i = 0; i < n; i++)
+        if (scanf("%d", &a[i]) != 1) return 1;
+    selectionSortDesc(a, n);
+    printf("Descending:");
+    for (int i = 0; i < n; i++)
         printf(" %d", a[i]);
     putchar('\n');
     return 0;

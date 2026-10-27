@@ -1,26 +1,28 @@
-#include <ctype.h>
+/*
+ * 316. Write a program to remove extra spaces from a string.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH];
-    size_t write = 0;
-    int pending_space = 0;
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    for (size_t read = 0; text[read] != '\0'; ++read) {
-        if (isspace((unsigned char)text[read]))
-            pending_space = write > 0;
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    size_t j = 0;
+    int gap = 0;
+    for (size_t i = 0; s[i]; i++) {
+        if (isspace((unsigned char)s[i])) gap = j > 0;
         else {
-            if (pending_space)
-                text[write++] = ' ';
-            text[write++] = text[read];
-            pending_space = 0;
+            if (gap) s[j++] = ' ';
+            s[j++] = s[i];
+            gap = 0;
         }
     }
-    text[write] = '\0';
-    printf("Normalized string: %s\n", text);
+    s[j] = '\0';
+    printf("Result: \"%s\"\n", s);
     return 0;
 }

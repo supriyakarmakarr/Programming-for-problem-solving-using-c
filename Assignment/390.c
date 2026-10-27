@@ -1,22 +1,24 @@
+/*
+ * 390. Write a function to calculate GCD of two numbers.
+ */
+
 #include <stdio.h>
-static unsigned long long magnitude(long long n) {
-    return n < 0 ? (unsigned long long)(-(n + 1)) + 1 : (unsigned long long)n;
-}
-static unsigned long long gcd(unsigned long long a, unsigned long long b) {
+
+static int gcd(int a, int b)
+{
     while (b) {
-        unsigned long long r = a % b;
+        int r = a % b;
         a = b;
         b = r;
     }
-    return a;
+    return a < 0 ? -a : a;
 }
-int main(void) {
-    long long a, b;
-    printf("Enter two integers: ");
-    if (scanf("%lld %lld", &a, &b) != 2) {
-        puts("Invalid input.");
-        return 1;
-    }
-    printf("GCD: %llu\n", gcd(magnitude(a), magnitude(b)));
+
+int main(void)
+{
+    int a, b;
+    printf("Enter two numbers: ");
+    if (scanf("%d %d", &a, &b) != 2) return 1;
+    printf("GCD = %d\n", gcd(a, b));
     return 0;
 }

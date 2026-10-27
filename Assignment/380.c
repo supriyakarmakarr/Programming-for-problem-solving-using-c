@@ -1,20 +1,21 @@
+/*
+ * 380. Write a function to reverse a number.
+ */
+
 #include <stdio.h>
-static long long reverse_number(int number) {
-    long long value = number < 0 ? -(long long)number : number;
-    long long reversed = 0;
-    do {
-        reversed = reversed * 10 + value % 10;
-        value /= 10;
-    } while (value != 0);
-    return number < 0 ? -reversed : reversed;
+
+static long long reverseNumber(int n)
+{
+    long long v = n < 0 ? -(long long)n : n, rev = 0;
+    for (; v; v /= 10) rev = rev * 10 + v % 10;
+    return n < 0 ? -rev : rev;
 }
-int main(void) {
-    int number;
-    printf("Enter an integer: ");
-    if (scanf("%d", &number) != 1) {
-        puts("Invalid input.");
-        return 1;
-    }
-    printf("Reversed number: %lld\n", reverse_number(number));
+
+int main(void)
+{
+    int n;
+    printf("Enter a number: ");
+    if (scanf("%d", &n) != 1) return 1;
+    printf("Reversed = %lld\n", reverseNumber(n));
     return 0;
 }

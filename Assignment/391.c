@@ -1,33 +1,31 @@
-#include <limits.h>
+/*
+ * 391. Write a function to calculate LCM of two numbers.
+ */
+
 #include <stdio.h>
-static unsigned long long magnitude(long long n) {
-    return n < 0 ? (unsigned long long)(-(n + 1)) + 1 : (unsigned long long)n;
-}
-static unsigned long long gcd(unsigned long long a, unsigned long long b) {
+
+static int gcd(int a, int b)
+{
     while (b) {
-        unsigned long long r = a % b;
+        int r = a % b;
         a = b;
         b = r;
     }
-    return a;
+    return a < 0 ? -a : a;
 }
-int main(void) {
-    long long x, y;
-    printf("Enter two integers: ");
-    if (scanf("%lld %lld", &x, &y) != 2) {
-        puts("Invalid input.");
-        return 1;
-    }
-    unsigned long long a = magnitude(x), b = magnitude(y);
-    if (!a || !b) {
-        puts("LCM: 0");
-        return 0;
-    }
-    unsigned long long g = gcd(a, b), q = a / g;
-    if (q > ULLONG_MAX / b) {
-        puts("LCM is too large to represent.");
-        return 1;
-    }
-    printf("LCM: %llu\n", q * b);
+
+static long long lcm(int a, int b)
+{
+    if (!a || !b) return 0;
+    long long r = (long long)(a / gcd(a, b)) * b;      // divide first to avoid overflow
+    return r < 0 ? -r : r;
+}
+
+int main(void)
+{
+    int a, b;
+    printf("Enter two numbers: ");
+    if (scanf("%d %d", &a, &b) != 2) return 1;
+    printf("LCM = %lld\n", lcm(a, b));
     return 0;
 }

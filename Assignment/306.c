@@ -1,18 +1,20 @@
+/*
+ * 306. Write a program to check whether a string starts with a given substring.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char text[MAX_LENGTH], prefix[MAX_LENGTH];
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    printf("Enter the prefix: ");
-    if (fgets(prefix, sizeof prefix, stdin) == NULL)
-        return 1;
-    prefix[strcspn(prefix, "\n")] = '\0';
-    puts(strncmp(text, prefix, strlen(prefix)) == 0
-             ? "The string starts with the substring."
-             : "The string does not start with the substring.");
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    char t[1024];
+    printf("Enter substring: ");
+    if (!fgets(t, sizeof t, stdin)) return 1;
+    t[strcspn(t, "\n")] = '\0';
+    puts(strncmp(s, t, strlen(t)) == 0 ? "String starts with the substring" : "String does not start with the substring");
     return 0;
 }

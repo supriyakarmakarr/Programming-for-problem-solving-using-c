@@ -1,23 +1,20 @@
-#include <ctype.h>
+/*
+ * 314. Write a program to check whether a string is a pangram.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH];
-    int letters[26] = {0};
-    printf("Enter a sentence: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0'; ++i) {
-        unsigned char ch = (unsigned char)tolower((unsigned char)text[i]);
-        if (ch >= 'a' && ch <= 'z')
-            letters[ch - 'a'] = 1;
-    }
-    for (int i = 0; i < 26; ++i)
-        if (!letters[i]) {
-            puts("The string is not a pangram.");
-            return 0;
-        }
-    puts("The string is a pangram.");
+#include <ctype.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    unsigned mask = 0;
+    for (const char *p = s; *p; p++)
+        if (isalpha((unsigned char)*p)) mask |= 1u << (tolower((unsigned char)*p) - 'a');
+    puts(mask == (1u << 26) - 1 ? "String is a pangram" : "String is not a pangram");
     return 0;
 }

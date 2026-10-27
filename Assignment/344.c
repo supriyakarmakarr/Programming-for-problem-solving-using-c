@@ -1,30 +1,26 @@
+/*
+ * 344. Write a program to check whether a string has balanced parentheses.
+ */
+
 #include <stdio.h>
-#define MAX_LENGTH 512
-int main(void) {
-    char text[MAX_LENGTH], stack[MAX_LENGTH];
+#include <string.h>
+
+int main(void)
+{
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    char stack[1024];
     size_t top = 0;
-    int balanced = 1;
-    printf("Enter an expression: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    for (size_t i = 0; text[i] != '\0'; ++i) {
-        char ch = text[i];
-        if (ch == '(' || ch == '[' || ch == '{')
-            stack[top++] = ch;
-        else if (ch == ')' || ch == ']' || ch == '}') {
-            if (top == 0) {
-                balanced = 0;
-                break;
-            }
-            char open = stack[--top];
-            if (!((open == '(' && ch == ')') || (open == '[' && ch == ']') ||
-                  (open == '{' && ch == '}'))) {
-                balanced = 0;
-                break;
-            }
+    int ok = 1;
+    for (const char *p = s; *p && ok; p++) {
+        if (strchr("([{", *p)) stack[top++] = *p;
+        else if (strchr(")]}", *p)) {
+            char open = *p == ')' ? '(' : *p == ']' ? '[' : '{';
+            ok = top && stack[--top] == open;
         }
     }
-    balanced = balanced && top == 0;
-    puts(balanced ? "Parentheses are balanced." : "Parentheses are not balanced.");
+    puts(ok && !top ? "Balanced" : "Not balanced");
     return 0;
 }

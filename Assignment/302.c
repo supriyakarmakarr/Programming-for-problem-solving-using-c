@@ -1,17 +1,20 @@
+/*
+ * 302. Write a program to check whether a string contains only digits.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
+#include <ctype.h>
+
 int main(void)
 {
-    char text[MAX_LENGTH];
-    printf("Enter a string: ");
-    if (fgets(text, sizeof text, stdin) == NULL)
-        return 1;
-    text[strcspn(text, "\n")] = '\0';
-    int valid = text[0] != '\0';
-    for (size_t i = 0; text[i] != '\0'; ++i)
-        if (text[i] < '0' || text[i] > '9')
-            valid = 0;
-    puts(valid ? "The string contains only digits." : "The string does not contain only digits.");
+    char s[1024];
+    printf("Enter string: ");
+    if (!fgets(s, sizeof s, stdin)) return 1;
+    s[strcspn(s, "\n")] = '\0';
+    int ok = *s != '\0';
+    for (const char *p = s; *p; p++)
+        ok &= isdigit((unsigned char)*p) != 0;
+    puts(ok ? "String contains only digits" : "String does not contain only digits");
     return 0;
 }

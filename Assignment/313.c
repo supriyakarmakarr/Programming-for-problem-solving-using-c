@@ -1,22 +1,23 @@
+/*
+ * 313. Write a program to swap two strings without using a temporary variable.
+ */
+
 #include <stdio.h>
 #include <string.h>
-#define MAX_LENGTH 256
-int main(void) {
-    char first[MAX_LENGTH] = {0}, second[MAX_LENGTH] = {0};
-    printf("Enter the first string: ");
-    if (fgets(first, sizeof first, stdin) == NULL)
-        return 1;
-    first[strcspn(first, "\n")] = '\0';
-    printf("Enter the second string: ");
-    if (fgets(second, sizeof second, stdin) == NULL)
-        return 1;
-    second[strcspn(second, "\n")] = '\0';
-    /* XOR swaps each byte in place, so no temporary variable is needed. */
-    for (size_t i = 0; i < sizeof first; ++i) {
-        first[i] ^= second[i];
-        second[i] ^= first[i];
-        first[i] ^= second[i];
-    }
-    printf("After swapping:\nFirst string: %s\nSecond string: %s\n", first, second);
+
+int main(void)
+{
+    char a[2048], b[1024];
+    printf("Enter first string: ");
+    if (!fgets(a, 1024, stdin)) return 1;
+    printf("Enter second string: ");
+    if (!fgets(b, sizeof b, stdin)) return 1;
+    a[strcspn(a, "\n")] = b[strcspn(b, "\n")] = '\0';
+
+    size_t la = strlen(a);
+    strcat(a, b);                                // a = a + b
+    memcpy(b, a, la); b[la] = '\0';              // b = old a
+    memmove(a, a + la, strlen(a + la) + 1);      // a = old b
+    printf("After swap:\nFirst : %s\nSecond: %s\n", a, b);
     return 0;
 }
