@@ -1,3 +1,5 @@
+// it is a data structure -> collection
+
 #include <stdio.h>
 
 int main(void){
