@@ -1,31 +1,23 @@
 #include <stdio.h>
+#include<stdbool.h>
 
-int main() {
-    int arr[100], n, x, idx = -1;
-
-    printf("Enter number of elements: ");
-    scanf("%d", &n);
-
-    printf("Enter array elements: \n");
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
-
-    printf("Enter element to search: ");
-    scanf("%d", &x);
-
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == x) {
-            idx = i;
+int main(){
+    int a[100],n,m,i,x = -1;
+    bool flag = false;
+    printf("Enter number of array : ");
+    scanf("%d",&n);
+    printf("Enter array element : \n");
+    for(i =0;i<n;i++) scanf("%d",&a[i]);
+    printf("Enter number to search :");
+    scanf("%d",&m);
+    for(i=0;i<n;i++){
+        if(a[i]==m){
+            flag = true;
+            x = i;
             break;
         }
     }
-
-    if (idx == -1) {
-        printf("Element not found");
-    } else {
-        printf("%d is present at index %d", x, idx);
-    }
-
+    if(flag) printf("%d found at position(index number) %d",m,x);
+    else printf("%d is not found in this array",m);
     return 0;
 }
