@@ -1,17 +1,12 @@
 #include <stdio.h>
-int sum(int n){
-    if(n == 0) return 0;
-    return n + sum(n-1);
+void ck(int n){
+    (n%2==0) ? printf("Even") : printf("Odd");
 }
 
 int main(){
     int n;
     printf("Enter a number :");
     scanf("%d",&n);
-    printf("Sum = %d",sum(n));
+    ck(n);
     return 0;
 }
-
-
-
-
