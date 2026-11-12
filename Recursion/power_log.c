@@ -2,12 +2,8 @@
 int power(int n,int p){
     if(p == 0) return 1;
     int a = power(n,p/2);
-    if(p%2==0){
-        return a*a;
-    }
-    else{
-        return a*a*n;
-    }
+    if(p%2==0) return a*a;
+    else return a*a*n;
 }
 
 int main(void){
@@ -19,3 +15,4 @@ int main(void){
     printf("%d raised to the power %d is %d",n,p,power(n,p));
     return 0;
 }
+

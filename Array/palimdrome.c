@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include<stdbool.h>
 int main(void) {
     int n, i;
     printf("Enter size of array: ");
@@ -14,14 +15,14 @@ int main(void) {
     for (i=0;i<n;i++) {
         scanf("%d", &arr[i]);
     }
-    int x = 1;
+    bool flag = true;
     for (i=0;i<n/2;i++) {
         if (arr[i] != arr[n-1-i]) {
-            x = 0;
+            flag = false;
             break;
         }
     }
-    if (x == 1)
+    if (flag)
         printf("Array is Palindrome");
     else
         printf("Array is not Palindrome");
